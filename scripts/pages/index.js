@@ -1,6 +1,4 @@
     async function getPhotographers() {
-        // Ceci est un exemple de données pour avoir un affichage de photographes de test dès le démarrage du projet, 
-        // mais il sera à remplacer avec une requête sur le fichier JSON en utilisant "fetch".
         const reponse = await fetch("data/photographers.json");
         return await reponse.json();
         
@@ -20,6 +18,7 @@
         // Récupère les datas des photographes
         const { photographers } = await getPhotographers();
         displayData(photographers);
+        addLogoLink();
     }
 
 
@@ -33,8 +32,8 @@
     logo.parentNode.insertBefore(link, logo);
     link.appendChild(logo);      
     }
-    //Mettre le code JavaScript lié à la page index.html
-    addLogoLink();
+
+    
 
     init();
     

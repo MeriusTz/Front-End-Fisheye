@@ -1,0 +1,35 @@
+@import url("style.css");
+
+
+
+
+.photographer_section {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 4em;
+    margin-top: 6em;
+    padding: 0em 4em;
+}
+
+.photographer_section article {
+    justify-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.photographer_section article a {
+    text-decoration: none;
+}
+
+.photographer_section article p {
+    margin: 0 0 0.3em 0;
+}
+
+
+.photographer_section article .price{
+    color: #757575;
+}
+

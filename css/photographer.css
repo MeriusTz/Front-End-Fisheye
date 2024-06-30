@@ -1,11 +1,7 @@
+@import url("style.css");
+
 #contact_modal {
     display: none;
-}
-
-.photograph-header {
-    background-color: #FAFAFA;
-    height: 300px;
-    margin: 0 100px;
 }
 
 .contact_button {
@@ -36,6 +32,9 @@
 .modal header {
     justify-content: space-between;
     width: 100%;
+}
+#contact_modal {
+    display: none;
 }
 
 .modal header img {
@@ -69,8 +68,106 @@ form div {
 }
 
 form input {
-    width: 100%;
-    height: 68px;
+    width: 200px;
+    height: 200px;
     border: none;
     border-radius: 5px;
+}
+
+main .medias img, video{
+    height: 300px;
+    width: 100%;
+    max-width: 350px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.photograph-header{
+    background-color: #FAFAFA;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding:  3% 3%;
+    margin: 2em 8.5%;
+    width: 77%;
+}
+
+.sortLabel {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 6em;
+}
+
+main .medias {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 3em; 
+    margin: 1em 7em;
+}
+
+main .medias article .mediaInfo{
+    color: #901C1C;
+    width: 65%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    white-space: nowrap;
+    margin: -2em 5.3em;
+    align-self: flex-start;
+}
+
+
+main .medias article .mediaInfoLikes{
+    display: flex;
+    font: 24px ;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.3em;
+}
+
+main .medias article{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1em 0;
+    text-align: center;
+    
+    
+}
+
+main .medias article img, 
+main .medias article video {
+    margin-bottom: 2em; 
+}
+
+main .stickyInfo{
+
+    position: sticky;
+    bottom: 0px;
+    left: 100%; 
+    
+    width: 15em;
+    margin-right: 3em;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    
+    background-color: #DB8876;
+
+    border: 1px solid black;
+    border-bottom: 0px;
+
+    padding: 0 1.2em;
+    border-radius: 5px 5px 0 0;
+
+}
+
+main .stickyLikes{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.3em;
 }
