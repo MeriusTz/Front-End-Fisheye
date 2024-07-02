@@ -96,12 +96,12 @@ form input {
 }
 
 .form_error{
-    outline: 5px solid red;
+    outline: 3px solid #901C1C;
 }
 .error-message {
-    color: red;
+    color: #901C1C;
     display: none;
-    font-size: 0.875em;
+    margin-top: 5px;
 }
 .form_error + .error-message {
     display: none;

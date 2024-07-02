@@ -14,25 +14,28 @@ const form_email = document.getElementById("email");
 const form_message = document.getElementById("message");
 
 const messageErrorText = {
-    firstName: 'Veuillez entrer 2 caractères ou plus pour le champ du prénom.', 
-    lastName:'Veuillez entrer 2 caractères ou plus pour le champ du nom.', 
+    firstName: 'Prénom invalide.', 
+    lastName:'Nom invalide.', 
     email:'E-mail invalide.', 
     message:'Message invalide.'
   };
+
   
-  async function showError(element, message) {
+  
+  
+   function showError(element, message) {
       element.textContent = message;
       element.style.display = "block";
     }
     
-    async function hideError(element) {
+     function hideError(element) {
         if (element) {
             element.style.display = "none";
         }
     
     }
     
-    async function errorCheck(inputElement, regex, errorElement, errorMessage) {
+     function errorCheck(inputElement, regex, errorElement, errorMessage) {
         const element = inputElement;
         if(!regex.test(inputElement.value)||inputElement.value.trim() === ""){
             element.classList.add("form_error");
@@ -87,18 +90,26 @@ document.addEventListener('keydown', handleKeyDown);
 
 modal_form.addEventListener('submit', function(event) {
     event.preventDefault();
-    if(validateName(form_firstName, firstNameError) && validateName(form_lastName, lastNameError) && validateEmail(form_email, emailError) && validateMessage(form_message, messageError)){
+    const isFirstNameValid = validateName(form_firstName, firstNameError);
+    const isLastNameValid = validateName(form_lastName, lastNameError);
+    const isEmailValid = validateEmail(form_email, emailError);
+    const isMessageValid = validateMessage(form_message, messageError);
+
+    if (isFirstNameValid && isLastNameValid && isEmailValid && isMessageValid) {
         const message = {
             "firstName": form_firstName.value,
             "lastName": form_lastName.value,
             "email": form_email.value,
             "message": form_message.value
         };
+
         console.log('message', message);
         closeModal();
+    } else {
+        console.log(isFirstNameValid, isLastNameValid, isEmailValid, isMessageValid);
     }
-    
 });
+
 
 function displayModal() {
 	modal.style.display = "block";
@@ -107,6 +118,7 @@ function displayModal() {
     headerBg.setAttribute('aria-hidden', 'true');
     document.body.classList.add('body-no-scroll');
 
+    
 }
 
 function closeModal() {
@@ -117,6 +129,11 @@ function closeModal() {
     document.body.classList.remove('body-no-scroll');
 
 }
+
+
+
+
+
 
 function handleKeyDown(event) {
     if (event.keyCode === 27) {
