@@ -21,16 +21,32 @@
       </div>
 
     </main>
-    <div id="contact_modal">
+    <div id="contact_modal" aria-hidden="true" role="dialog">
 			<div class="modal">
-				<header>
+				<header class="modal-header">
           <h2>Contactez-moi</h2>
           <img src="assets/icons/close.svg" onclick="closeModal()" />
         </header>
-				<form>
-					<div>
-						<label>Prénom</label>
-						<input />
+				<form id="contact_form">
+					<div class="firstName_container">
+						<label for="firstName">Prénom</label>
+						<input type="text" id="firstName"/>
+            <span class="error-message" id="firstNameError"></span>
+					</div>
+          <div>
+						<label for="lastName">Nom</label>
+						<input type="text" id="lastName"/>
+            <span class="error-message" id="lastNameError"></span>
+					</div>
+          <div>
+						<label for="email">Email</label>
+						<input type="text" id="email"/>
+            <span class="error-message" id="emailError"></span>
+					</div>
+          <div class="message_container">
+						<label for="message">Votre message</label>
+						<textarea id="message"></textarea>
+            <span class="error-message" id="messageError"></span>
 					</div>
           <button class="contact_button">Envoyer</button>
 				</form>

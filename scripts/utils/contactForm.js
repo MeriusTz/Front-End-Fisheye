@@ -1,9 +1,125 @@
+const modal = document.getElementById("contact_modal");
+const modalBtn = document.getElementById("contact_button");
+const contentBg = document.querySelector("main");
+const headerBg = document.querySelector("header");
+const headerModal_title = document.querySelector(".modal-header h2");
+const headerModal = document.querySelector(".modal-header");
+const modal_container = document.querySelector(".modal");
+const modal_form = document.getElementById("contact_form");
+
+
+const form_firstName = document.getElementById("firstName");
+const form_lastName = document.getElementById("lastName");
+const form_email = document.getElementById("email");
+const form_message = document.getElementById("message");
+
+const messageErrorText = {
+    firstName: 'Veuillez entrer 2 caractères ou plus pour le champ du prénom.', 
+    lastName:'Veuillez entrer 2 caractères ou plus pour le champ du nom.', 
+    email:'E-mail invalide.', 
+    message:'Message invalide.'
+  };
+  
+  async function showError(element, message) {
+      element.textContent = message;
+      element.style.display = "block";
+    }
+    
+    async function hideError(element) {
+        if (element) {
+            element.style.display = "none";
+        }
+    
+    }
+    
+    async function errorCheck(inputElement, regex, errorElement, errorMessage) {
+        const element = inputElement;
+        if(!regex.test(inputElement.value)||inputElement.value.trim() === ""){
+            element.classList.add("form_error");
+            showError(errorElement, errorMessage);
+            return false;
+        } else {
+            element.classList.remove("form_error");
+            hideError(errorElement);
+            return true;
+        }
+    }
+
+function validateName(inputElement, errorElement){
+    const nameRegex = RegExp("^[A-Za-zÀ-ÖØ-öø-ÿ]+$");
+    return errorCheck(inputElement, nameRegex, errorElement, messageErrorText[inputElement.id]);
+     
+}
+
+function validateEmail(inputElement, errorElement){
+    const emailRegex = new RegExp("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-z]{2,4}$");
+    return errorCheck(inputElement, emailRegex, errorElement, messageErrorText[inputElement.id]);
+}
+
+function validateMessage(inputElement, errorElement){
+    const safeInputRegex = new RegExp ("^[^<>;\\/]+$");
+    return errorCheck(inputElement, safeInputRegex, errorElement, messageErrorText[inputElement.id]);
+}
+
+
+form_firstName.addEventListener('input', function(event) {
+    validateName(form_firstName, firstNameError);
+});
+
+form_lastName.addEventListener('input', function(event) {
+    validateName(form_lastName, lastNameError);
+});
+
+form_email.addEventListener('input', function(event) {
+    validateEmail(form_email, emailError);
+});
+
+form_message.addEventListener('input', function(event) {
+    validateMessage(form_message, messageError);
+});
+
+const urlSearchParams = new URLSearchParams(window.location.search);
+const id = urlSearchParams.get("id");
+
+document.addEventListener('keydown', handleKeyDown);
+
+
+
+modal_form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    if(validateName(form_firstName, firstNameError) && validateName(form_lastName, lastNameError) && validateEmail(form_email, emailError) && validateMessage(form_message, messageError)){
+        const message = {
+            "firstName": form_firstName.value,
+            "lastName": form_lastName.value,
+            "email": form_email.value,
+            "message": form_message.value
+        };
+        console.log('message', message);
+        closeModal();
+    }
+    
+});
+
 function displayModal() {
-    const modal = document.getElementById("contact_modal");
 	modal.style.display = "block";
+    modal.setAttribute('aria-hidden', 'false');
+    contentBg.setAttribute('aria-hidden', 'true');
+    headerBg.setAttribute('aria-hidden', 'true');
+    document.body.classList.add('body-no-scroll');
+
 }
 
 function closeModal() {
-    const modal = document.getElementById("contact_modal");
     modal.style.display = "none";
+    modal.setAttribute('aria-hidden', 'true');
+    contentBg.setAttribute('aria-hidden', 'false');
+    headerBg.setAttribute('aria-hidden', 'false');
+    document.body.classList.remove('body-no-scroll');
+
+}
+
+function handleKeyDown(event) {
+    if (event.keyCode === 27) {
+        closeModal();
+    }
 }

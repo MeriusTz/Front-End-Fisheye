@@ -7,12 +7,19 @@ const id = urlSearchParams.get("id");
 fetch('data/photographers.json')
 .then(response => response.json())
 .then(data => {
-
     const photographer = data.photographers.find(p => p.id == id);
+
+    //Nom dans la modale
+    const h2 = document.createElement('h2');
+    h2.textContent = photographer.name;
+    h2.classList.add('modal_header_name');
+    headerModal.insertAdjacentElement('afterend', h2);
+
+
+
     init();
 
 async function init() {
-    
     photographerProfile();
     printMedias();
     printTotalLikes();
