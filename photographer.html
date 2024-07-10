@@ -5,7 +5,9 @@
     <meta charset="utf-8">
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <script src="https://kit.fontawesome.com/8e95469ef4.js" crossorigin="anonymous"></script>
-    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+
     <title>Fisheye - photographe </title>
   </head>
   <body>
@@ -52,8 +54,33 @@
 				</form>
 			</div>
 		</div>
+    <div id="lightbox" aria-hidden="true" role="dialog">
+
+      <a href="javascript:void(0)" class="lightbox_close">
+        <span class="material-icons">close</span>
+      </a>
+
+
+      <a href="javascript:void(0)" class="lightbox_prev">
+        <span class="material-icons">
+          chevron_left
+          </span>
+      </a>
+
+      <a href="javascript:void(0)" class="lightbox_next">
+        <span class="material-icons">
+          chevron_right
+          </span>
+      </a>
+
+    </div>
+    <script src="scripts/templates/photographer.js"></script>
     <script type="module" src="/scripts/pages/photographer.js"></script>
     <script type="module" src="/scripts/utils/mediaFactory.js"></script>
+    <script type="module" src="/scripts/utils/lightbox.js"></script>
+    <script type="module" src="/scripts/utils/likes.js"></script>
+    <script type="module" src="/scripts/utils/logo.js"></script>
     <script src="/scripts/utils/contactForm.js"></script>
+
   </body>
 </html>

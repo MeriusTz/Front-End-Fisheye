@@ -49,7 +49,7 @@ const messageErrorText = {
     }
 
 function validateName(inputElement, errorElement){
-    const nameRegex = RegExp("^[A-Za-zÀ-ÖØ-öø-ÿ]+$");
+    const nameRegex = RegExp("^[A-Za-zÀ-ÖØ-öø-ÿ]{2,}$");
     return errorCheck(inputElement, nameRegex, errorElement, messageErrorText[inputElement.id]);
      
 }
@@ -129,12 +129,7 @@ function closeModal() {
     document.body.classList.remove('body-no-scroll');
 
 }
-
-
-
-
-
-
+ 
 function handleKeyDown(event) {
     if (event.keyCode === 27) {
         closeModal();

@@ -1,13 +1,16 @@
-import { createPicture, createText } from '../templates/mediasPage.js';
+import { createPicture, createText, createMediaElement } from '../templates/mediasPage.js';
 import { mediaFactory  } from '../utils/mediaFactory.js';
+import { addLikes, printTotalLikes } from '../utils/likes.js';
+import { fetchDataAndFilterById } from '../utils/dataFetcher.js';
+import { addLogoLink } from '../utils/logo.js';
 
 const urlSearchParams = new URLSearchParams(window.location.search);
 const id = urlSearchParams.get("id");
 
-fetch('data/photographers.json')
-.then(response => response.json())
-.then(data => {
-    const photographer = data.photographers.find(p => p.id == id);
+
+
+fetchDataAndFilterById(id).then(({ photographer, data }) => {
+
 
     //Nom dans la modale
     const h2 = document.createElement('h2');
@@ -19,11 +22,13 @@ fetch('data/photographers.json')
 
     init();
 
-async function init() {
-    photographerProfile();
-    printMedias();
-    printTotalLikes();
-}
+    async function init() {
+        addLogoLink();
+        photographerProfile();
+        printMedias();
+        addLikes();
+        printTotalLikes();
+    }
 
 
 function photographerProfile() {
@@ -44,37 +49,36 @@ function photographerProfile() {
     createText('p', photographer.tagline, photographInfo);
 }
 
-function createMediaElement(src, alt, mediatype) {
-    const mediaElement = document.createElement(mediatype);
-    mediaElement.src = src;
-    mediaElement.alt = alt;
-    return mediaElement;
-}
+
 
 function printMedias(){
     const medias = document.createElement('section');
-    medias.classList.add('medias');
+    medias.classList.add('media_section');
+    let totalLikesValue = 0;
     
-    let media = data.media.filter(m => m.photographerId == id);
-    var totalLikesValue = 0;
+    const  media = data.media.filter(m => m.photographerId == id);
     media.forEach(m => {
         
         const mediaData = mediaFactory(m);
 
         const articleMedia = document.createElement('article');
+        articleMedia.classList.add('media_article');
 
         main.appendChild(articleMedia);
         
 
         if(mediaData.type === 'video') {
-            const mediaElement = createMediaElement(mediaData.root , mediaData.title, 'video');
+            const mediaElement = createMediaElement(mediaData.root ,mediaData.title, 'video');
             articleMedia.appendChild(mediaElement);
             mediaElement.classList.add('medias');
+            
+            mediaElement.id = 'video';
 
         } else if (mediaData.type === 'image') {
             const mediaElement = createMediaElement(mediaData.root, mediaData.title, 'img');
             articleMedia.appendChild(mediaElement);
             mediaElement.classList.add('medias');
+            mediaElement.id = 'image';
         }
 
         const mediaInfo = document.createElement('div');
@@ -89,11 +93,11 @@ function printMedias(){
 
         const likes = document.createElement( 'p' );
         likes.textContent = mediaData.likes;
-        
+        likes.classList.add('numberLikes');
 
 
         const heart = document.createElement('i');
-        heart.classList.add( 'fa-solid', 'fa-heart' );
+        heart.classList.add( 'fa-solid', 'fa-heart','media_heart' );
 
         mediaInfo.appendChild(title);
         mediaInfoLikes.appendChild(likes);
@@ -104,50 +108,9 @@ function printMedias(){
         articleMedia.appendChild(mediaInfo);
         main.appendChild(medias);
         
-
-        
-        
-        
     });
+
+    
 }
-
-    function printTotalLikes() {
-
-        let media = data.media.filter(m => m.photographerId == id);
-        var totalLikesValue = 0;
-        media.forEach(m => {
-
-        totalLikesValue = totalLikesValue + m.likes;
-    });
-
-    const stickyInfo = document.createElement('div');
-    stickyInfo.classList.add( 'stickyInfo' );
-
-    const stickyLikes = document.createElement('div');
-    stickyLikes.classList.add( 'stickyLikes' );
-
-    const totalLikes = document.createElement('p');
-    totalLikes.textContent = totalLikesValue;
-    
-    const stickyHeart = document.createElement('i');
-    stickyHeart.classList.add( 'fa-solid', 'fa-heart', 'stickyHeart' );
-
-
-
-    const stickyPrice = document.createElement( 'p' );
-    stickyPrice.textContent = `${photographer.price}€ / jour`; ;
-    
-
-
-    stickyLikes.appendChild(totalLikes);
-    stickyLikes.appendChild(stickyHeart);
-    
-    stickyInfo.appendChild(stickyLikes);
-    stickyInfo.appendChild(stickyPrice);
-
-
-    main.appendChild(stickyInfo);
-
-    }
 
 });

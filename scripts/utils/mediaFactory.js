@@ -22,7 +22,7 @@ class mediaImage {
         this.root = `assets/images/medias/${this.photographerId}/${this.image}`;
 
     }
-
+    
 }
 
 class mediaVideo {
