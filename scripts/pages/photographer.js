@@ -3,6 +3,7 @@ import { mediaFactory  } from '../utils/mediaFactory.js';
 import { addLikes, printTotalLikes } from '../utils/likes.js';
 import { fetchDataAndFilterById } from '../utils/dataFetcher.js';
 import { addLogoLink } from '../utils/logo.js';
+import { openLightbox } from '../utils/lightbox.js';
 
 const urlSearchParams = new URLSearchParams(window.location.search);
 const id = urlSearchParams.get("id");
@@ -23,11 +24,14 @@ fetchDataAndFilterById(id).then(({ photographer, data }) => {
     init();
 
     async function init() {
+        let selectedValue = 'popularite';
+        let sortedMedia = sortMedia(selectedValue);
         addLogoLink();
         photographerProfile();
-        printMedias();
-        addLikes();
+
         printTotalLikes();
+        mediaSorter();
+        printMedias(sortedMedia);
     }
 
 
@@ -51,13 +55,55 @@ function photographerProfile() {
 
 
 
-function printMedias(){
-    const medias = document.createElement('section');
-    medias.classList.add('media_section');
-    let totalLikesValue = 0;
+// Fonction pour trier les médias en fonction de l'option sélectionnée
+function sortMedia(selectedValue) {
+    let sortedMedia = [];
+    if (selectedValue === 'popularite') {
+        sortedMedia = data.media.filter(m => m.photographerId == id).sort((a, b) => b.likes - a.likes);
+    } else if (selectedValue === 'date') {
+        sortedMedia = data.media.filter(m => m.photographerId == id).sort((a, b) => new Date(b.date) - new Date(a.date));
+    } else if (selectedValue === 'titre') {
+        sortedMedia = data.media.filter(m => m.photographerId == id).sort((a, b) => a.title.localeCompare(b.title));
+    }
+
     
-    const  media = data.media.filter(m => m.photographerId == id);
-    media.forEach(m => {
+    return sortedMedia;
+}
+
+
+
+
+
+async function mediaSorter() {
+
+const filterSelect = document.getElementById('filter');
+
+filterSelect.addEventListener('change', async () => {
+    const selectedValue = filterSelect.value;
+    const sortedMedia = sortMedia(selectedValue);
+
+    // Supprimer les éléments déjà présents
+    const mediaSection = document.querySelector('.media_section');
+    mediaSection.remove();
+
+    await printMedias(sortedMedia);
+    console.log('Médias triés selon', selectedValue, ':', sortedMedia);
+
+
+
+});
+
+}
+
+
+async function printMedias(sortedMedia){
+    let medias = document.createElement('section');
+    medias.classList.add('media_section');
+
+    
+    let totalLikesValue = 0;
+
+    sortedMedia.forEach(m => {
         
         const mediaData = mediaFactory(m);
 
@@ -106,10 +152,18 @@ function printMedias(){
         mediaInfo.appendChild(mediaInfoLikes);
         medias.appendChild(articleMedia);
         articleMedia.appendChild(mediaInfo);
-        main.appendChild(medias);
+        main.insertBefore(medias, document.querySelector('.stickyInfo'));
         
     });
-
+    
+    
+    document.querySelectorAll(".medias").forEach((element ,index) => {
+        element.addEventListener("click", async () => {
+            await openLightbox(photographer, element);
+        });    
+    });
+    
+    await addLikes();
     
 }
 

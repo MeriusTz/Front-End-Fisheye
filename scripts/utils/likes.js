@@ -40,7 +40,7 @@ export async function addLikes() {
 
 
 export async function printTotalLikes() {
-    
+    const mediaSection = document.querySelector('.media_section');
 fetchDataAndFilterById(id).then(({ photographer, data }) => {
 
     const numberLikes = document.querySelectorAll('.numberLikes');

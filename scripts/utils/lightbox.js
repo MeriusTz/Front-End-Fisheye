@@ -2,7 +2,7 @@ import { fetchDataAndFilterById  } from './dataFetcher.js';
 
 
 
-async function openLightbox(photographer, element) {
+export async function openLightbox(photographer, element) {
     const currentMedia = element.getAttribute("id") === "video"  ? document.createElement("video") : document.createElement("img");
     
     currentMedia.setAttribute("src", element.getAttribute("src"));
@@ -88,18 +88,16 @@ fetchDataAndFilterById(id).then(photographer => {
     //Délégation d'événements
 
     document.addEventListener('click', function(event) {
-        if (event.target.classList.contains('lightbox_next')) {
+        if (event.target.parentElement.classList.contains('lightbox_next')) {
             nextLightbox();
         }
-        if (event.target.classList.contains('lightbox_prev')) {
+        if (event.target.parentElement.classList.contains('lightbox_prev')) {
             previousLightbox();
         }
-        if (event.target.classList.contains('lightbox_close')) {
+        if (event.target.parentElement.classList.contains('lightbox_close')) {
             closeLightbox();
             deleteContent();
         }
     });
 
 });
-
-

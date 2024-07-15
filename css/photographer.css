@@ -294,3 +294,23 @@ main .stickyLikes{
     color: #901C1C;
     transition: transform 0.5s ease-in-out;
 }
+
+.media-filter {
+    display: inline-block;
+    position: relative;
+  }
+
+  .sortLabel {
+    margin-right: 10px;
+  }
+
+  select#filter {
+
+    background-color: #8B0000;
+    color: white; 
+    padding: 10px 30px 10px 10px; 
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px; 
+    border: none;
+  }
