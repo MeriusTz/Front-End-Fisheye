@@ -1,5 +1,6 @@
 import { fetchDataAndFilterById  } from './dataFetcher.js';
 
+let isLightboxOpen = false;
 
 
 export async function openLightbox(photographer, element) {
@@ -22,7 +23,7 @@ export async function openLightbox(photographer, element) {
     lightbox.style.display = "flex";
     lightbox.setAttribute("aria-hidden", false);
 
-    
+    isLightboxOpen = true;
 }
 
 
@@ -30,6 +31,7 @@ export async function openLightbox(photographer, element) {
 async function closeLightbox() {
     lightbox.style.display = "none";
     lightbox.setAttribute("aria-hidden", true);
+    isLightboxOpen = false;
 }
 
 async function deleteContent() {
@@ -49,7 +51,7 @@ fetchDataAndFilterById(id).then(photographer => {
         });    
     });
     
-    function previousLightbox(){
+    async function previousLightbox(){
         deleteContent();
         currentIndex--;
         if (currentIndex < 0) {
@@ -59,7 +61,7 @@ fetchDataAndFilterById(id).then(photographer => {
         openLightbox(photographer, currentMedia);
     }
 
-    function nextLightbox(){
+    async function nextLightbox(){
         deleteContent();
         currentIndex++;
         if (currentIndex >= document.querySelectorAll(".medias").length) {
@@ -72,16 +74,20 @@ fetchDataAndFilterById(id).then(photographer => {
 
     
     document.addEventListener('keydown', handleKeyDown);
-    function handleKeyDown(event) {
-        if (event.key === "ArrowLeft") {
-            previousLightbox();
-        }
-        if (event.key === "ArrowRight") {
-            nextLightbox();
-        }
-        if (event.keyCode === 27) {
-            closeLightbox();
-            deleteContent();
+    async function handleKeyDown(event) {
+        if(isLightboxOpen){
+            
+            if (event.key === "ArrowLeft") {
+                previousLightbox();
+            }
+            if (event.key === "ArrowRight") {
+                nextLightbox();
+            }
+            if (event.keyCode === 27) {
+                closeLightbox();
+                deleteContent();
+            }
+            
         }
     }
     

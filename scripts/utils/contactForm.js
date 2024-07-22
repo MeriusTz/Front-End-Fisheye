@@ -114,11 +114,33 @@ modal_form.addEventListener('submit', function(event) {
 function displayModal() {
 	modal.style.display = "block";
     modal.setAttribute('aria-hidden', 'false');
+    modal.setAttribute('aria-modal', 'true');
     contentBg.setAttribute('aria-hidden', 'true');
     headerBg.setAttribute('aria-hidden', 'true');
     document.body.classList.add('body-no-scroll');
+    modal_container.setAttribute('tabindex', '-1');
+    modal_form.querySelector('input').focus();
 
-    
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Tab' && modal.style.display === 'block') {
+        const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        
+        if (event.shiftKey) {
+            if (document.activeElement === firstElement) {
+                lastElement.focus();
+                event.preventDefault();
+            }
+        } else {
+            if (document.activeElement === lastElement) {
+                firstElement.focus();
+                event.preventDefault();
+            }
+        }
+    }
+});
+
 }
 
 function closeModal() {

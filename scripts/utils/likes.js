@@ -7,34 +7,38 @@ export async function addLikes() {
     mediaHearts.forEach(heart => {
         let liked = false;
 
-        heart.addEventListener('click', () => {
+        const toggleLike = () => {
+            const likesElement = heart.parentNode.querySelector('.numberLikes');
+            const totalLikesElement = document.querySelector('.totalLikes');
+        
             if (!liked) {
-                const likesElement = heart.parentNode.querySelector('.numberLikes');
-                const totalLikesElement = document.querySelector('.totalLikes');
-
                 const likes = parseInt(likesElement.textContent);
                 likesElement.textContent = likes + 1;
-
+        
                 const totalLikes = parseInt(totalLikesElement.textContent);
                 totalLikesElement.textContent = totalLikes + 1;
                 heart.classList.add('liked');
                 heart.classList.remove('unliked');
                 liked = true;
             } else {
-                // Unlike functionality
-                const likesElement = heart.parentNode.querySelector('.numberLikes');
-                const totalLikesElement = document.querySelector('.totalLikes');
-
+                // Fonctionnalité d'annulation du like
                 const likes = parseInt(likesElement.textContent);
                 likesElement.textContent = likes - 1;
-
+        
                 const totalLikes = parseInt(totalLikesElement.textContent);
                 totalLikesElement.textContent = totalLikes - 1;
                 heart.classList.add('unliked');
                 heart.classList.remove('liked');
                 liked = false;
             }
-        });
+        };
+        
+        heart.addEventListener('click', toggleLike);
+        heart.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+        toggleLike();
+    }
+});
     });
 }
 

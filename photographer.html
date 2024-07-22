@@ -12,7 +12,7 @@
   </head>
   <body>
     <header>
-      <img src="assets/images/logo.png" class="logo" />
+      <img src="assets/images/logo.png" class="logo"  alt="logo fisheye qui redirige vers la page d'accueil"/>
     </header>
     <main id="main">
       <div class="photograph-header">
@@ -20,37 +20,49 @@
       </div>
       <div class="media-filter">
         <label class="sortLabel">Trier par : </label>
-        <select name="filter" id="filter">
-          <option value="popularite">Popularité</option>
-          <option value="date">Date</option>
-          <option value="titre">Titre</option>
+        <div class="custom-select-wrapper">
+            <div class="custom-select">
+                <div class="custom-select-trigger">
+                    <span>Popularité</span>
+                    <div class="arrow"></div>
+                </div>
+                <div class="custom-options">
+                    <span class="custom-option selected" data-value="popularite">Popularité</span>
+                    <span class="custom-option" data-value="date">Date</span>
+                    <span class="custom-option" data-value="titre">Titre</span>
+                </div>
+            </div>
+        </div>
+        <select name="filter" id="filter" style="display:none;">
+            <option value="popularite">Popularité</option>
+            <option value="date">Date</option>
+            <option value="titre">Titre</option>
         </select>
-      </div>
-
+    </div>
     </main>
     <div id="contact_modal" aria-hidden="true" role="dialog">
-			<div class="modal">
+			<div class="modal" role="dialog" >
 				<header class="modal-header">
           <h2>Contactez-moi</h2>
           <img src="assets/icons/close.svg" onclick="closeModal()" />
         </header>
 				<form id="contact_form">
-					<div class="firstName_container">
+					<div class="form_container">
 						<label for="firstName">Prénom</label>
 						<input type="text" id="firstName"/>
             <span class="error-message" id="firstNameError"></span>
 					</div>
-          <div>
+          <div class="form_container">
 						<label for="lastName">Nom</label>
 						<input type="text" id="lastName"/>
             <span class="error-message" id="lastNameError"></span>
 					</div>
-          <div>
+          <div class="form_container">
 						<label for="email">Email</label>
 						<input type="text" id="email"/>
             <span class="error-message" id="emailError"></span>
-					</div>
-          <div class="message_container">
+					</div class="form_container">
+          <div class="form_container">
 						<label for="message">Votre message</label>
 						<textarea id="message"></textarea>
             <span class="error-message" id="messageError"></span>
