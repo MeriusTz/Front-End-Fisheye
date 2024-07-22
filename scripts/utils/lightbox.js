@@ -1,14 +1,27 @@
-import { fetchDataAndFilterById  } from './dataFetcher.js';
+import { fetchDataAndFilterById } from './dataFetcher.js';
 
 let isLightboxOpen = false;
+let currentIndex = 0;
+let mediaElements = [];
+const lightbox = document.getElementById('lightbox');
 
+export async function openLightbox(photographer, element, index) {
+    if (!element) {
+        console.error("Element is undefined");
+        return;
+    }
 
-export async function openLightbox(photographer, element) {
-    const currentMedia = element.getAttribute("id") === "video"  ? document.createElement("video") : document.createElement("img");
-    
+    console.log("Opening lightbox with element index:", index);
+
+    deleteContent();
+
+    const currentMedia = element.getAttribute("id") === "video" ? document.createElement("video") : document.createElement("img");
+
     currentMedia.setAttribute("src", element.getAttribute("src"));
-    currentMedia.classList.add("lightbox_content")
-    currentMedia.setAttribute('controls', 'controls');
+    currentMedia.classList.add("lightbox_content");
+    if (currentMedia.tagName.toLowerCase() === "video") {
+        currentMedia.setAttribute('controls', 'controls');
+    }
 
     const mediaName = element.getAttribute("alt");
     const mediaNameElement = document.createElement("p");
@@ -16,17 +29,15 @@ export async function openLightbox(photographer, element) {
     mediaNameElement.textContent = mediaName;
     mediaNameElement.classList.add("lightbox_media_name");
     currentMedia.setAttribute('alt', mediaName);
-    
-    lightbox.appendChild(currentMedia);
-    lightbox.appendChild(mediaNameElement);
+
+    lightbox.insertBefore(mediaNameElement, lightbox.firstChild);
+    lightbox.insertBefore(currentMedia, lightbox.firstChild);
 
     lightbox.style.display = "flex";
     lightbox.setAttribute("aria-hidden", false);
 
     isLightboxOpen = true;
 }
-
-
 
 async function closeLightbox() {
     lightbox.style.display = "none";
@@ -35,75 +46,81 @@ async function closeLightbox() {
 }
 
 async function deleteContent() {
-    const children = lightbox.children;
-    lightbox.removeChild(children[children.length - 1]);
-    lightbox.removeChild(children[children.length - 1]);
+    const mediaContent = document.querySelectorAll('.lightbox_content, .lightbox_media_name');
+    mediaContent.forEach(element => element.remove());
 }
 
-fetchDataAndFilterById(id).then(photographer => {
-    let currentIndex = 0;
-    
-    document.querySelectorAll(".medias").forEach((element ,index) => {
+export function initializeLightbox(photographer) {
+    mediaElements = document.querySelectorAll(".medias");
+    console.log("Media Elements Length: ", mediaElements.length);
+
+    mediaElements.forEach((element, index) => {
+        element.setAttribute('data-index', index);
         element.addEventListener("click", () => {
             currentIndex = index;
-            openLightbox(photographer, element);
-
-        });    
+            console.log("Current Index on click:", currentIndex);
+            openLightbox(photographer, element, currentIndex);
+        });
     });
-    
-    async function previousLightbox(){
-        deleteContent();
-        currentIndex--;
-        if (currentIndex < 0) {
-            currentIndex = document.querySelectorAll(".medias").length - 1;
-        }
-        const currentMedia = document.querySelectorAll(".medias")[currentIndex];
-        openLightbox(photographer, currentMedia);
-    }
+}
 
-    async function nextLightbox(){
-        deleteContent();
-        currentIndex++;
-        if (currentIndex >= document.querySelectorAll(".medias").length) {
-            currentIndex = 0;
-        }
-        const currentMedia = document.querySelectorAll(".medias")[currentIndex];
-        openLightbox(photographer, currentMedia);
-    }
+window.onload = () => {
+    fetchDataAndFilterById(id).then(({ photographer }) => {
+        initializeLightbox(photographer);
 
-
-    
-    document.addEventListener('keydown', handleKeyDown);
-    async function handleKeyDown(event) {
-        if(isLightboxOpen){
-            
-            if (event.key === "ArrowLeft") {
-                previousLightbox();
+        async function previousLightbox() {
+            if (!isLightboxOpen) return;
+            currentIndex = (currentIndex - 1 + mediaElements.length) % mediaElements.length;
+            console.log("Previous Index:", currentIndex);
+            const currentMedia = mediaElements[currentIndex];
+            if (!currentMedia) {
+                console.error("Element is undefined at previousLightbox");
+                return;
             }
-            if (event.key === "ArrowRight") {
+            openLightbox(photographer, currentMedia, currentIndex);
+        }
+
+        async function nextLightbox() {
+            if (!isLightboxOpen) return;
+            currentIndex = (currentIndex + 1) % mediaElements.length;
+            console.log("Next Index:", currentIndex);
+            const currentMedia = mediaElements[currentIndex];
+            if (!currentMedia) {
+                console.error("Element is undefined at nextLightbox");
+                return;
+            }
+            openLightbox(photographer, currentMedia, currentIndex);
+        }
+
+        document.addEventListener('keydown', handleKeyDown);
+        async function handleKeyDown(event) {
+            if (isLightboxOpen) {
+                if (event.key === "ArrowLeft") {
+                    previousLightbox();
+                }
+                if (event.key === "ArrowRight") {
+                    nextLightbox();
+                }
+                if (event.key === "Escape") {
+                    closeLightbox();
+                    deleteContent();
+                }
+            }
+        }
+
+        document.addEventListener('click', function(event) {
+            if (event.target.closest('.lightbox_next')) {
                 nextLightbox();
             }
-            if (event.keyCode === 27) {
+            if (event.target.closest('.lightbox_prev')) {
+                previousLightbox();
+            }
+            if (event.target.closest('.lightbox_close')) {
                 closeLightbox();
                 deleteContent();
             }
-            
-        }
-    }
-    
-    //Délégation d'événements
-
-    document.addEventListener('click', function(event) {
-        if (event.target.parentElement.classList.contains('lightbox_next')) {
-            nextLightbox();
-        }
-        if (event.target.parentElement.classList.contains('lightbox_prev')) {
-            previousLightbox();
-        }
-        if (event.target.parentElement.classList.contains('lightbox_close')) {
-            closeLightbox();
-            deleteContent();
-        }
+        });
     });
 
-});
+    console.log('Script loaded and executed');
+};
