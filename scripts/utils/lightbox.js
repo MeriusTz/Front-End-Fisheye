@@ -61,6 +61,14 @@ export function initializeLightbox(photographer) {
             console.log("Current Index on click:", currentIndex);
             openLightbox(photographer, element, currentIndex);
         });
+
+        element.addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                currentIndex = index;
+                console.log("Current Index on keydown:", currentIndex);
+                openLightbox(photographer, element, currentIndex);
+            }
+        });
     });
 }
 

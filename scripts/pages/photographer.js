@@ -11,6 +11,8 @@ const lbopen = false;
 
 fetchDataAndFilterById(id).then(({ photographer, data }) => {
 
+    document.title = `Fisheye - ${photographer.name}`;
+
     // Nom dans la modale
     const h2 = document.createElement('h2');
     h2.textContent = photographer.name;
