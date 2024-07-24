@@ -36,6 +36,10 @@ export async function openLightbox(photographer, element, index) {
     lightbox.style.display = "flex";
     lightbox.setAttribute("aria-hidden", false);
 
+    // Focus management
+    lightbox.setAttribute("tabindex", "0");
+    lightbox.focus();
+
     isLightboxOpen = true;
 }
 
@@ -43,6 +47,9 @@ async function closeLightbox() {
     lightbox.style.display = "none";
     lightbox.setAttribute("aria-hidden", true);
     isLightboxOpen = false;
+
+    // Remove focus management
+    lightbox.removeAttribute("tabindex");
 }
 
 async function deleteContent() {
@@ -63,7 +70,7 @@ export function initializeLightbox(photographer) {
         });
 
         element.addEventListener("keydown", (event) => {
-            if (event.key === "Enter") {
+            if (event.key === "Enter" && !isLightboxOpen) {
                 currentIndex = index;
                 console.log("Current Index on keydown:", currentIndex);
                 openLightbox(photographer, element, currentIndex);
@@ -113,6 +120,9 @@ window.onload = () => {
                     closeLightbox();
                     deleteContent();
                 }
+                if (event.key === "Enter") {
+                    event.preventDefault();  // Prevent default action of Enter key
+                }
             }
         }
 
@@ -126,6 +136,14 @@ window.onload = () => {
             if (event.target.closest('.lightbox_close')) {
                 closeLightbox();
                 deleteContent();
+            }
+        });
+
+        // Trap focus within the lightbox
+        document.addEventListener('focusin', (event) => {
+            if (isLightboxOpen && !lightbox.contains(event.target)) {
+                event.stopPropagation();
+                lightbox.focus();
             }
         });
     });

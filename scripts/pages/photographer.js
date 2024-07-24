@@ -29,7 +29,7 @@ fetchDataAndFilterById(id).then(({ photographer, data }) => {
 
         printTotalLikes();
         mediaSorter();
-        printMedias(sortedMedia);
+        await printMedias(sortedMedia);
         initializeLightbox(photographer); // Initialiser les écouteurs d'événements
     }
 
@@ -121,44 +121,24 @@ fetchDataAndFilterById(id).then(({ photographer, data }) => {
 
             const heart = document.createElement('i');
             heart.classList.add('fa-solid', 'fa-heart', 'media_heart');
-        heart.setAttribute('tabindex', '0');
-        mediaInfo.appendChild(title);
-        mediaInfoLikes.appendChild(likes);
-        mediaInfoLikes.appendChild(heart);
+            heart.setAttribute('tabindex', '0');
+            mediaInfo.appendChild(title);
+            mediaInfoLikes.appendChild(likes);
+            mediaInfoLikes.appendChild(heart);
 
-        mediaInfo.appendChild(mediaInfoLikes);
-        medias.appendChild(articleMedia);
-        articleMedia.appendChild(mediaInfo);
-        main.insertBefore(medias, document.querySelector('.stickyInfo'));
-        
-    });
-    
-    
-    document.querySelectorAll(".medias").forEach((element, index) => {
-        element.addEventListener("click", async () => {
-            await openLightbox(photographer, element);
+            mediaInfo.appendChild(mediaInfoLikes);
+            medias.appendChild(articleMedia);
+            articleMedia.appendChild(mediaInfo);
+            main.insertBefore(medias, document.querySelector('.stickyInfo'));
         });
-        
-        element.addEventListener("keydown", async (event) => {
-            if (event.key === "Enter") {
-                await openLightbox(photographer, element);
 
-            }
-        });
-    });
-    
+        await addLikes();
 
-    
-
-    await addLikes();
-    
-    
-}
-
-
-
-
+        // Mettre à jour les éléments de médias et réinitialiser les écouteurs d'événements
+        initializeLightbox(photographer);
+    }
 });
+
 document.addEventListener('DOMContentLoaded', () => {
     const customSelectTrigger = document.querySelector('.custom-select-trigger');
     const customOptions = document.querySelector('.custom-options');
