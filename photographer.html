@@ -5,12 +5,12 @@
     <meta charset="utf-8">
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <script src="https://kit.fontawesome.com/8e95469ef4.js" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <title>Fisheye - photographe</title>
   </head>
   <body>
     <header>
-      <img src="assets/images/logo.png" class="logo"  alt="logo fisheye qui redirige vers la page d'accueil"/>
+      <img src="assets/images/logo.png" class="logo" alt="logo fisheye qui redirige vers la page d'accueil" />
     </header>
     <main id="main">
       <div class="photograph-header">
@@ -19,83 +19,72 @@
       <div class="media-filter">
         <label class="sortLabel">Trier par : </label>
         <div class="custom-select-wrapper">
-            <div class="custom-select">
-                <div class="custom-select-trigger">
-                    <span>Popularité</span>
-                    <div class="arrow"></div>
-                </div>
-                <div class="custom-options">
-                    <span class="custom-option selected" data-value="popularite">Popularité</span>
-                    <span class="custom-option" data-value="date">Date</span>
-                    <span class="custom-option" data-value="titre">Titre</span>
-                </div>
+          <div class="custom-select">
+            <div class="custom-select-trigger" tabindex="0">
+              <span>Popularité</span>
+              <div class="arrow"></div>
             </div>
+            <div class="custom-options">
+              <span class="custom-option selected" data-value="popularite" tabindex="-1">Popularité</span>
+              <span class="custom-option" data-value="date" tabindex="-1">Date</span>
+              <span class="custom-option" data-value="titre" tabindex="-1">Titre</span>
+            </div>
+          </div>
         </div>
         <select name="filter" id="filter" style="display:none;">
-            <option value="popularite">Popularité</option>
-            <option value="date">Date</option>
-            <option value="titre">Titre</option>
+          <option value="popularite">Popularité</option>
+          <option value="date">Date</option>
+          <option value="titre">Titre</option>
         </select>
-    </div>
+      </div>
     </main>
-    <div id="contact_modal" aria-hidden="true" role="dialog">
-			<div class="modal" role="dialog" >
-				<header class="modal-header">
-          <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
+    <div id="contact_modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+      <div class="modal" role="modal-contact">
+        <header class="modal-header">
+          <h2 id="modal-title">Contactez-moi</h2>
+          <img src="assets/icons/close.svg" onclick="closeModal()" alt="Fermer la modale" role="button" tabindex="0" />
         </header>
-				<form id="contact_form">
-					<div class="form_container">
-						<label for="firstName">Prénom</label>
-						<input type="text" id="firstName"/>
-            <span class="error-message" id="firstNameError"></span>
-					</div>
+        <form id="contact_form">
           <div class="form_container">
-						<label for="lastName">Nom</label>
-						<input type="text" id="lastName"/>
-            <span class="error-message" id="lastNameError"></span>
-					</div>
+            <label for="firstName">Prénom</label>
+            <input type="text" id="firstName" aria-describedby="firstNameError" />
+            <span class="error-message" id="firstNameError" aria-live="assertive"></span>
+          </div>
           <div class="form_container">
-						<label for="email">Email</label>
-						<input type="text" id="email"/>
-            <span class="error-message" id="emailError"></span>
-					</div class="form_container">
+            <label for="lastName">Nom</label>
+            <input type="text" id="lastName" aria-describedby="lastNameError" />
+            <span class="error-message" id="lastNameError" aria-live="assertive"></span>
+          </div>
           <div class="form_container">
-						<label for="message">Votre message</label>
-						<textarea id="message"></textarea>
-            <span class="error-message" id="messageError"></span>
-					</div>
-          <button class="contact_button">Envoyer</button>
-				</form>
-			</div>
-		</div>
+            <label for="email">Email</label>
+            <input type="text" id="email" aria-describedby="emailError" />
+            <span class="error-message" id="emailError" aria-live="assertive"></span>
+          </div>
+          <div class="form_container">
+            <label for="message">Votre message</label>
+            <textarea id="message" aria-describedby="messageError"></textarea>
+            <span class="error-message" id="messageError" aria-live="assertive"></span>
+          </div>
+          <button class="contact_button" type="submit">Envoyer</button>
+        </form>
+      </div>
+    </div>
     <div id="lightbox" aria-hidden="true" role="dialog">
-
       <a href="javascript:void(0)" class="lightbox_close">
         <span class="material-icons">close</span>
       </a>
-
-
       <a href="javascript:void(0)" class="lightbox_prev">
-        <span class="material-icons">
-          chevron_left
-          </span>
+        <span class="material-icons">chevron_left</span>
       </a>
-
       <a href="javascript:void(0)" class="lightbox_next">
-        <span class="material-icons">
-          chevron_right
-          </span>
+        <span class="material-icons">chevron_right</span>
       </a>
-
     </div>
-    <script src="scripts/templates/photographer.js"></script>
-    <script type="module" src="scripts/pages/photographer.js"></script>
-    <script type="module" src="scripts/utils/mediaFactory.js"></script>
-    <script type="module" src="scripts/utils/lightbox.js"></script>
-    <script type="module" src="scripts/utils/likes.js"></script>
-    <script type="module" src="scripts/utils/logo.js"></script>
-    <script src="scripts/utils/contactForm.js"></script>
-
+    <script type="module" src="/scripts/pages/photographerPage.js"></script>
+    <script type="module" src="/scripts/utils/mediaFactory.js"></script>
+    <script type="module" src="/scripts/utils/lightbox.js"></script>
+    <script type="module" src="/scripts/utils/likes.js"></script>
+    <script type="module" src="/scripts/utils/logo.js"></script>
+    <script src="/scripts/utils/contactForm.js"></script>
   </body>
 </html>
