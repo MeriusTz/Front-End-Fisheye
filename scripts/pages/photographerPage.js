@@ -11,7 +11,6 @@ const id = urlSearchParams.get("id");
 fetchDataAndFilterById(id).then(({ photographer, data }) => {
     // Met à jour le titre de la page avec le nom du photographe
     document.title = `Fisheye - ${photographer.name}`;
-
     // Initialise la page du photographe
     init();
 

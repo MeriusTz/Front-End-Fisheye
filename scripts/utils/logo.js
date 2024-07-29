@@ -1,4 +1,3 @@
-
 export function addLogoLink() { 
     const logo = document.querySelector(".logo");
     const link = document.createElement('a');

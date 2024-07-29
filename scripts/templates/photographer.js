@@ -1,4 +1,3 @@
-// Autres importations existantes
 import { addLikes } from '../utils/likes.js';
 import { mediaFactory } from '../utils/mediaFactory.js';
 import { initializeLightbox } from '../utils/lightbox.js';

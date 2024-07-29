@@ -33,4 +33,4 @@ export async function getPhotographersData() {
     localStorage.setItem('photographersData', JSON.stringify(data));
     return data; // Retourne les données
   }
-} 
+}

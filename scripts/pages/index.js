@@ -21,5 +21,6 @@ async function init() {
     addLogoLink(); // Ajoute un lien au logo
 }
 
+
 // Appel de la fonction d'initialisation
 init(); 

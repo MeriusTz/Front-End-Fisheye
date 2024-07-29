@@ -1,4 +1,3 @@
-// Récupération des éléments du DOM
 const modal = document.getElementById("contact_modal"); 
 const modalBtn = document.getElementById("contact_button"); 
 const contentBg = document.querySelector("main"); 
@@ -144,6 +143,7 @@ function closeModal() {
     document.body.classList.remove('body-no-scroll'); 
 
 }
+
 
 // Fonction pour piéger le focus à l'intérieur de la modale
 function trapFocus(event) {
