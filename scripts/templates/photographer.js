@@ -1,12 +1,147 @@
+// Autres importations existantes
 import { addLikes } from '../utils/likes.js';
 import { mediaFactory } from '../utils/mediaFactory.js';
 import { initializeLightbox } from '../utils/lightbox.js';
 
+// Fonction pour créer des éléments de texte
+function createText(type, content, parent, optionClass) {
+    const balise = document.createElement(type);
+    balise.textContent = content;
+    parent.appendChild(balise);
+    if (optionClass) {
+        balise.classList.add(optionClass);
+    }
+    return balise;
+}
+
+// Fonction pour afficher le profil du photographe
+function displayPhotographerProfile(photographer) {
+    const photographHeader = document.querySelector('.photograph-header');
+    const contactButton = photographHeader.querySelector('.contact_button');
+    const picture = `assets/photographers/${photographer.portrait}`;
+    const img = document.createElement('img');
+    img.setAttribute("src", picture);
+    img.setAttribute("alt", `Photo de ${photographer.name}`);
+    photographHeader.appendChild(img);
+    const photographInfo = document.createElement('div');
+    photographHeader.insertBefore(photographInfo, contactButton);
+    createText('h1', photographer.name, photographInfo);
+    createText('p', `${photographer.city}, ${photographer.country}`, photographInfo, 'location');
+    createText('p', photographer.tagline, photographInfo);
+}
+
+// Fonction pour gérer les interactions du sélecteur personnalisé
+function handleCustomSelectInteractions() {
+    const customSelectTrigger = document.querySelector('.custom-select-trigger');
+    const customOptions = document.querySelector('.custom-options');
+    const customOptionElements = document.querySelectorAll('.custom-option');
+    const filterSelect = document.getElementById('filter');
+    customSelectTrigger.setAttribute('tabindex', '0');
+    customOptionElements.forEach((option) => {
+        option.setAttribute('tabindex', '-1');
+    });
+
+    function toggleOptions() {
+        customOptions.classList.toggle('open');
+        customSelectTrigger.classList.toggle('open');
+        updateOptionDisplay();
+        focusFirstVisibleOption();
+    }
+
+    customSelectTrigger.addEventListener('click', (e) => {
+        toggleOptions();
+    });
+
+    customSelectTrigger.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            toggleOptions();
+        }
+    });
+
+    customOptionElements.forEach((option, index) => {
+        option.addEventListener('click', (e) => {
+            e.stopPropagation();
+            customOptionElements.forEach(opt => opt.classList.remove('selected'));
+            option.classList.add('selected');
+            customSelectTrigger.querySelector('span').textContent = option.textContent;
+            customOptions.classList.remove('open');
+            customSelectTrigger.classList.remove('open');
+            const event = new Event('change');
+            filterSelect.value = option.getAttribute('data-value');
+            filterSelect.dispatchEvent(event);
+            customSelectTrigger.focus();
+        });
+
+        option.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                option.click();
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                focusNextVisibleOption(index);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                focusPreviousVisibleOption(index);
+            }
+        });
+    });
+
+    window.addEventListener('focusin', (e) => {
+        if (!customSelectTrigger.contains(e.target) && !customOptions.contains(e.target)) {
+            customOptions.classList.remove('open');
+            customSelectTrigger.classList.remove('open');
+        }
+    });
+
+    function updateOptionDisplay() {
+        let lastVisibleOption;
+        customOptionElements.forEach(option => {
+            if (option.classList.contains('selected')) {
+                option.style.display = 'none';
+            } else {
+                option.style.display = 'block';
+                lastVisibleOption = option;
+            }
+            option.classList.remove('last-visible');
+        });
+        if (lastVisibleOption) {
+            lastVisibleOption.classList.add('last-visible');
+        }
+    }
+
+    function focusFirstVisibleOption() {
+        for (const option of customOptionElements) {
+            if (option.style.display !== 'none') {
+                option.focus();
+                break;
+            }
+        }
+    }
+
+    function focusNextVisibleOption(currentIndex) {
+        for (let i = currentIndex + 1; i < customOptionElements.length; i++) {
+            if (customOptionElements[i].style.display !== 'none') {
+                customOptionElements[i].focus();
+                break;
+            }
+        }
+    }
+
+    function focusPreviousVisibleOption(currentIndex) {
+        for (let i = currentIndex - 1; i >= 0; i--) {
+            if (customOptionElements[i].style.display !== 'none') {
+                customOptionElements[i].focus();
+                break;
+            }
+        }
+    }
+}
 
 // Template pour afficher les photographes 
 function photographerTemplate(data) {
     const { name, id, city, country, tagline, price, portrait } = data;
     const picture = `assets/photographers/${portrait}`;
+
+    
 
     // Fonction pour obtenir le DOM du photographe
     function getUserCardDOM() {
@@ -78,15 +213,11 @@ class MediaPageTemplate {
         }
     }
 
-
-
     // Méthode pour afficher les médias
     async printMedias(sortedMedia) {
-
         let medias = document.createElement('section');
         medias.classList.add('media_section');
         sortedMedia.forEach(m => {
-
             const mediaData = mediaFactory(m);
             const articleMedia = document.createElement('article');
             articleMedia.classList.add('media_article');
@@ -94,6 +225,7 @@ class MediaPageTemplate {
             const mediaElement = document.createElement(mediaData.type === 'video' ? 'video' : 'img');
             mediaElement.src = mediaData.root;
             mediaElement.setAttribute('alt', `${mediaData.title} de ${this.photographer.name}`);
+            mediaElement.setAttribute('data-title', mediaData.title);
             articleMedia.appendChild(mediaElement);
             mediaElement.classList.add('medias');
             mediaElement.setAttribute('tabindex', '0');
@@ -119,7 +251,6 @@ class MediaPageTemplate {
             this.main.insertBefore(medias, document.querySelector('.stickyInfo'));
         });
     }
-
 }
 
 // Classe pour trier les médias par popularité
@@ -147,4 +278,4 @@ class TitleMediaPage extends MediaPageTemplate {
 }
 
 // Export des fonctions et des classes
-export { photographerTemplate, MediaPageTemplate, PopularityMediaPage, DateMediaPage, TitleMediaPage };
+export { photographerTemplate, createText, displayPhotographerProfile, handleCustomSelectInteractions, MediaPageTemplate, PopularityMediaPage, DateMediaPage, TitleMediaPage };

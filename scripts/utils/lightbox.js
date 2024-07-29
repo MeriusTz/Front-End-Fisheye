@@ -5,6 +5,9 @@ let currentIndex = 0;
 let mediaElements = [];
 const lightbox = document.getElementById('lightbox');
 
+const urlSearchParams = new URLSearchParams(window.location.search);
+const id = urlSearchParams.get("id");
+
 // Fonction pour ouvrir la lightbox
 export async function openLightbox(photographer, element, index) {
     if (!element) {
@@ -22,7 +25,7 @@ export async function openLightbox(photographer, element, index) {
         currentMedia.setAttribute('controls', 'controls'); // Ajoute les contrôles si c'est une vidéo
     }
 
-    const mediaName = element.getAttribute("alt"); // Récupère le nom du média via le alt
+    const mediaName = element.getAttribute("data-title"); // Récupère le nom du média via le data-title
     const mediaNameElement = document.createElement("p");
 
     mediaNameElement.textContent = mediaName;
@@ -78,7 +81,7 @@ export function initializeLightbox(photographer) {
 }
 
 window.onload = () => {
-  
+    if (id) {
         fetchDataAndFilterById(id).then(({ photographer }) => {
             initializeLightbox(photographer); // Initialise la lightbox avec les données du photographe
 
@@ -141,5 +144,6 @@ window.onload = () => {
                 }
             });
         });
-    
+
+    }
 };
