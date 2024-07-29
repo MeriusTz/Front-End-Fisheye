@@ -1,7 +1,7 @@
 import { addLikes } from '../utils/likes.js';
 import { mediaFactory } from '../utils/mediaFactory.js';
 import { initializeLightbox } from '../utils/lightbox.js';
-import { addLogoLink } from '../utils/logo.js';
+
 
 // Template pour afficher les photographes 
 function photographerTemplate(data) {
@@ -55,7 +55,7 @@ class MediaPageTemplate {
         if (this.constructor === MediaPageTemplate) {
             throw new Error("Abstract classes can't be instantiated.");
         }
-        this.data = data; 
+        this.data = data;
         this.id = id;  
         this.main = main;  
         this.photographer = photographer;  
@@ -82,16 +82,18 @@ class MediaPageTemplate {
 
     // Méthode pour afficher les médias
     async printMedias(sortedMedia) {
+
         let medias = document.createElement('section');
         medias.classList.add('media_section');
         sortedMedia.forEach(m => {
+
             const mediaData = mediaFactory(m);
             const articleMedia = document.createElement('article');
             articleMedia.classList.add('media_article');
             this.main.appendChild(articleMedia);
             const mediaElement = document.createElement(mediaData.type === 'video' ? 'video' : 'img');
             mediaElement.src = mediaData.root;
-            mediaElement.setAttribute('alt', mediaData.title);
+            mediaElement.setAttribute('alt', `${mediaData.title} de ${this.photographer.name}`);
             articleMedia.appendChild(mediaElement);
             mediaElement.classList.add('medias');
             mediaElement.setAttribute('tabindex', '0');

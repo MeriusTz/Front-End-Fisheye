@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
   <head>
     <link href="css/photographer.css" rel="stylesheet" type="text/css" />
     <meta charset="utf-8">
@@ -17,7 +17,7 @@
         <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
       </div>
       <div class="media-filter">
-        <label class="sortLabel">Trier par : </label>
+        <label for="filter" class="sortLabel">Trier par : </label>
         <div class="custom-select-wrapper">
           <div class="custom-select">
             <div class="custom-select-trigger" tabindex="0">
@@ -38,8 +38,8 @@
         </select>
       </div>
     </main>
-    <div id="contact_modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
-      <div class="modal" role="modal-contact">
+    <div id="contact_modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title" aria-describedby="contact_form">
+      <div class="modal" >
         <header class="modal-header">
           <h2 id="modal-title">Contactez-moi</h2>
           <img src="assets/icons/close.svg" onclick="closeModal()" alt="Fermer la modale" role="button" tabindex="0" />
@@ -69,7 +69,7 @@
         </form>
       </div>
     </div>
-    <div id="lightbox" aria-hidden="true" role="dialog">
+    <div id="lightbox" aria-hidden="true" role="dialog" aria-label="Galerie d'images">
       <a href="javascript:void(0)" class="lightbox_close">
         <span class="material-icons">close</span>
       </a>

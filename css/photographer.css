@@ -8,6 +8,11 @@ body{
 
 }
 
+h1{
+    color: #D3573C;
+    font-size: 36px;
+}
+
 #contact_modal {
     position: fixed;
     top: 0;

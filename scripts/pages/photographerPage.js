@@ -55,7 +55,7 @@ fetchDataAndFilterById(id).then(({ photographer, data }) => {
             }
             return balise;
         };
-        createText('h2', photographer.name, photographInfo);
+        createText('h1', photographer.name, photographInfo);
         createText('p', `${photographer.city}, ${photographer.country}`, photographInfo, 'location');
         createText('p', photographer.tagline, photographInfo);
     }

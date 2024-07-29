@@ -1,45 +1,66 @@
 import { fetchDataAndFilterById } from './dataFetcher.js'; 
 
+// Fonction pour supprimer l'attribut aria-hidden des icônes de cœur
+function removeAriaHidden() {
+    const mediaHearts = document.querySelectorAll('.media_heart');
+    mediaHearts.forEach(heart => {
+        heart.removeAttribute('aria-hidden');
+        
+        heart.setAttribute = function(name, value) {
+            if (name === 'aria-hidden') return;
+            heart.setAttribute.call(heart, name, value);
+        };
+    });
+}
+
+
+
 // Fonction pour ajouter des likes aux médias
 export async function addLikes() {
     const mediaHearts = document.querySelectorAll('.media_heart');
 
     mediaHearts.forEach(heart => {
-        let liked = false; 
+
+
+        let liked = false;
 
         const toggleLike = () => {
-            const likesElement = heart.parentNode.querySelector('.numberLikes'); 
-            const totalLikesElement = document.querySelector('.totalLikes'); 
-        
+            const likesElement = heart.parentNode.querySelector('.numberLikes');
+            const totalLikesElement = document.querySelector('.totalLikes');
+
             if (!liked) {
                 const likes = parseInt(likesElement.textContent);
-                likesElement.textContent = likes + 1; 
+                likesElement.textContent = likes + 1;
                 const totalLikes = parseInt(totalLikesElement.textContent);
-                totalLikesElement.textContent = totalLikes + 1; 
+                totalLikesElement.textContent = totalLikes + 1;
                 heart.classList.add('liked');
                 heart.classList.remove('unliked');
                 liked = true;
             } else {
                 // Fonctionnalité d'annulation du like
-                const likes = parseInt(likesElement.textContent); 
-                likesElement.textContent = likes - 1; 
+                const likes = parseInt(likesElement.textContent);
+                likesElement.textContent = likes - 1;
 
                 const totalLikes = parseInt(totalLikesElement.textContent);
                 totalLikesElement.textContent = totalLikes - 1;
-                heart.classList.add('unliked'); 
-                heart.classList.remove('liked'); 
-                liked = false; 
+                heart.classList.add('unliked');
+                heart.classList.remove('liked');
+                liked = false;
             }
         };
-        
+
         heart.addEventListener('click', toggleLike);
         heart.addEventListener('keydown', (event) => {
             if (event.key === 'Enter') {
-                toggleLike(); 
+                toggleLike();
             }
         });
     });
+
+    removeAriaHidden(); // Supprime l'attribut aria-hidden initialement
 }
+
+
 
 // Fonction pour afficher le nombre total de likes
 export async function printTotalLikes() {
