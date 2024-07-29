@@ -64,6 +64,7 @@ export async function addLikes() {
 
 // Fonction pour afficher le nombre total de likes
 export async function printTotalLikes() {
+    
     const mediaSection = document.querySelector('.media_section'); 
     fetchDataAndFilterById(id).then(({ photographer, data }) => {
 

@@ -14,20 +14,20 @@
     </header>
     <main id="main">
       <div class="photograph-header">
-        <button class="contact_button" onclick="displayModal()">Contactez-moi</button>
+        <button class="contact_button" aria-label="Contact me" onclick="displayModal()">Contactez-moi</button>
       </div>
       <div class="media-filter">
-        <label for="filter" class="sortLabel">Trier par : </label>
+        <label for="filter" id="sortLabel" >Trier par : </label>
         <div class="custom-select-wrapper">
           <div class="custom-select">
-            <div class="custom-select-trigger" tabindex="0">
+            <div class="custom-select-trigger" role="button" aria-haspopup="listbox" aria-expanded="false" tabindex="0" aria-labelledby="sortLabel">
               <span>Popularité</span>
               <div class="arrow"></div>
             </div>
-            <div class="custom-options">
-              <span class="custom-option selected" data-value="popularite" tabindex="-1">Popularité</span>
-              <span class="custom-option" data-value="date" tabindex="-1">Date</span>
-              <span class="custom-option" data-value="titre" tabindex="-1">Titre</span>
+            <div class="custom-options" role="listbox" aria-labelledby="sortLabel">
+              <span class="custom-option selected" data-value="popularite" tabindex="-1" role="option" aria-selected="true">Popularité</span>
+              <span class="custom-option" data-value="date" tabindex="-1" role="option" aria-selected="false">Date</span>
+              <span class="custom-option" data-value="titre" tabindex="-1" role="option" aria-selected="false">Titre</span>
             </div>
           </div>
         </div>
@@ -41,43 +41,43 @@
     <div id="contact_modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title" aria-describedby="contact_form">
       <div class="modal" >
         <header class="modal-header">
-          <h2 id="modal-title">Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" alt="Fermer la modale" role="button" tabindex="0" />
+          <h2 id="modal-title">Contactez-moi <span id="photographer-name"></span></h2>
+          <img src="assets/icons/close.svg" onclick="closeModal()" alt="Close Contact form" role="button" tabindex="0" />
         </header>
         <form id="contact_form">
           <div class="form_container">
-            <label for="firstName">Prénom</label>
-            <input type="text" id="firstName" aria-describedby="firstNameError" />
+            <label for="firstName" id="firstNameLabel">Prénom</label>
+            <input type="text" id="firstName" aria-labelledby="firstNameLabel" aria-describedby="firstNameError" />
             <span class="error-message" id="firstNameError" aria-live="assertive"></span>
           </div>
           <div class="form_container">
-            <label for="lastName">Nom</label>
-            <input type="text" id="lastName" aria-describedby="lastNameError" />
+            <label for="lastName" id="lastNameLabel">Nom</label>
+            <input type="text" id="lastName" aria-labelledby="lastNameLabel" aria-describedby="lastNameError" />
             <span class="error-message" id="lastNameError" aria-live="assertive"></span>
           </div>
           <div class="form_container">
-            <label for="email">Email</label>
-            <input type="text" id="email" aria-describedby="emailError" />
+            <label for="email" id="emailLabel">Email</label>
+            <input type="text" id="email" aria-labelledby="emailLabel" aria-describedby="emailError" />
             <span class="error-message" id="emailError" aria-live="assertive"></span>
           </div>
           <div class="form_container">
-            <label for="message">Votre message</label>
-            <textarea id="message" aria-describedby="messageError"></textarea>
+            <label for="message" id="messageLabel">Votre message</label>
+            <textarea id="message" aria-labelledby="messageLabel" aria-describedby="messageError"></textarea>
             <span class="error-message" id="messageError" aria-live="assertive"></span>
           </div>
-          <button class="contact_button" type="submit">Envoyer</button>
+          <button class="contact_button" aria-label="Send" type="submit">Envoyer</button>
         </form>
-      </div>
+      </div> 
     </div>
-    <div id="lightbox" aria-hidden="true" role="dialog" aria-label="Galerie d'images">
-      <a href="javascript:void(0)" class="lightbox_close">
+    <div id="lightbox" aria-hidden="true" role="dialog" aria-label="image closeup view">
+      <a href="javascript:void(0)" class="lightbox_close" aria-label="Close dialog">
         <span class="material-icons">close</span>
       </a>
-      <a href="javascript:void(0)" class="lightbox_prev">
+      <a href="javascript:void(0)" class="lightbox_prev" aria-label="Previous image">
         <span class="material-icons">chevron_left</span>
       </a>
-      <a href="javascript:void(0)" class="lightbox_next">
-        <span class="material-icons">chevron_right</span>
+      <a href="javascript:void(0)" class="lightbox_next" aria-label="Next image">
+        <span class="material-icons" >chevron_right</span>
       </a>
     </div>
     <script type="module" src="/scripts/pages/photographerPage.js"></script>

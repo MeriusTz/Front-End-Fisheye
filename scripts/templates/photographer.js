@@ -42,8 +42,19 @@ function handleCustomSelectInteractions() {
     });
 
     function toggleOptions() {
+        
         customOptions.classList.toggle('open');
         customSelectTrigger.classList.toggle('open');
+
+        if (customSelectTrigger.getAttribute('aria-expanded') === 'true') {
+            customOptions.setAttribute('aria-hidden', 'false');
+            customSelectTrigger.setAttribute('aria-expanded', 'false');
+          } else {
+            customOptions.setAttribute('aria-hidden', 'true');
+            customSelectTrigger.setAttribute('aria-expanded', 'true');
+          }
+        
+
         updateOptionDisplay();
         focusFirstVisibleOption();
     }
@@ -97,8 +108,12 @@ function handleCustomSelectInteractions() {
         customOptionElements.forEach(option => {
             if (option.classList.contains('selected')) {
                 option.style.display = 'none';
+                option.setAttribute("aria-hidden", "true");
+                option.setAttribute("aria-selected", "true");
             } else {
                 option.style.display = 'block';
+                option.setAttribute("aria-hidden", "false");
+                option.setAttribute("aria-selected", "false");
                 lastVisibleOption = option;
             }
             option.classList.remove('last-visible');
@@ -140,8 +155,6 @@ function handleCustomSelectInteractions() {
 function photographerTemplate(data) {
     const { name, id, city, country, tagline, price, portrait } = data;
     const picture = `assets/photographers/${portrait}`;
-
-    
 
     // Fonction pour obtenir le DOM du photographe
     function getUserCardDOM() {
@@ -224,7 +237,7 @@ class MediaPageTemplate {
             this.main.appendChild(articleMedia);
             const mediaElement = document.createElement(mediaData.type === 'video' ? 'video' : 'img');
             mediaElement.src = mediaData.root;
-            mediaElement.setAttribute('alt', `${mediaData.title} de ${this.photographer.name}`);
+            mediaElement.setAttribute('alt', `${mediaData.title}, closeup view`);
             mediaElement.setAttribute('data-title', mediaData.title);
             articleMedia.appendChild(mediaElement);
             mediaElement.classList.add('medias');
@@ -242,6 +255,7 @@ class MediaPageTemplate {
             const heart = document.createElement('i');
             heart.classList.add('fa-solid', 'fa-heart', 'media_heart');
             heart.setAttribute('tabindex', '0');
+            heart.setAttribute('aria-label', "likes");
             mediaInfo.appendChild(title);
             mediaInfoLikes.appendChild(likes);
             mediaInfoLikes.appendChild(heart);

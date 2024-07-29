@@ -48,4 +48,4 @@ fetchDataAndFilterById(id).then(({ photographer, data }) => {
         const selectedValue = event.target.value;
         await mediaSorter(selectedValue);
     });
-});
+}); 

@@ -7,6 +7,7 @@ const headerModal_title = document.querySelector(".modal-header h2");
 const headerModal = document.querySelector(".modal-header");
 const modal_container = document.querySelector(".modal"); 
 const modal_form = document.getElementById("contact_form"); 
+const photographerNameElement = document.getElementById("photographer-name");
 
 const form_firstName = document.getElementById("firstName");
 const form_lastName = document.getElementById("lastName"); 
@@ -109,13 +110,17 @@ modal_form.addEventListener('submit', function (event) {
         console.log('error');
     }
 });
-
+ 
 // Fonction pour afficher la modale
 function displayModal() {
+    const photographerName = document.querySelector('.photograph-header h1').textContent;
+    photographerNameElement.textContent = photographerName;
+
     modal.style.display = "block"; 
 
     modal.setAttribute('aria-hidden', 'false'); 
     modal.setAttribute('aria-modal', 'true'); 
+    modal.setAttribute('aria-label', `Contact me ${photographerName}`);
     contentBg.setAttribute('aria-hidden', 'true');
     headerBg.setAttribute('aria-hidden', 'true');
 

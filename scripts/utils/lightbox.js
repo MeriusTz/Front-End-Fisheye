@@ -79,7 +79,7 @@ export function initializeLightbox(photographer) {
         });
     });
 }
-
+ 
 window.onload = () => {
     if (id) {
         fetchDataAndFilterById(id).then(({ photographer }) => {
