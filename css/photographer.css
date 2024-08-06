@@ -243,7 +243,7 @@ main .stickyLikes{
 
 .lightbox_content{
     position: relative;
-    object-fit: fill;
+    object-fit: cover;
     border-radius: 5px;
     width: 100%;
     height: 100%;
@@ -436,36 +436,10 @@ main .stickyLikes{
     border-bottom-right-radius: 4px;
 }
 
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#close_modal:focus{
+    outline: 3px solid #901C1C;
+    background-color: #901C1C;
+}
 
   .contact_button:focus, 
   .contact_button:hover {

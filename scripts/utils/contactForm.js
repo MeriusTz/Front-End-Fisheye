@@ -2,7 +2,10 @@ const modal = document.getElementById("contact_modal");
 const contentBg = document.querySelector("main"); 
 const headerBg = document.querySelector("header");
 const modal_form = document.getElementById("contact_form"); 
+const contactButton = document.querySelector(".contact_button");
+const closeButton = document.getElementById("close_modal");
 const photographerNameElement = document.getElementById("photographer-name");
+
 
 const form_firstName = document.getElementById("firstName");
 const form_firstNameError = document.getElementById("firstNameError");
@@ -126,6 +129,7 @@ function displayModal() {
 	document.addEventListener("keydown", trapFocus); 
 }
 
+
 // Fonction pour fermer la modale
 function closeModal() {
 	modal.style.display = "none"; 
@@ -160,9 +164,24 @@ function trapFocus(event) {
 	}
 }
 
+
+
 // Fonction pour gérer les événements clavier
 function handleKeyDown(event) {
 	if (event.keyCode === 27) { // Ferme la modale si la touche Échap est pressée
 		closeModal();
 	}
 }
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+	
+	contactButton.addEventListener("click", displayModal);
+	closeButton.addEventListener("click", closeModal);
+	closeButton.addEventListener("keydown", (e) => {
+		if (e.key === "Enter" || e.key === " ") {
+			closeModal();
+		}
+	});
+});

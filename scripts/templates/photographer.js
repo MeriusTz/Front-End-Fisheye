@@ -60,9 +60,8 @@ function handleCustomSelectInteractions() {
 		focusFirstVisibleOption();
 	}
 
-	customSelectTrigger.addEventListener("click", () => {
-		toggleOptions();
-	});
+
+	customSelectTrigger.addEventListener("click", toggleOptions);
 
 	customSelectTrigger.addEventListener("keydown", (e) => {
 		if (e.key === "Enter" || e.key === " ") {
